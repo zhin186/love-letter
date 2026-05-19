@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>致妻子的情书</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Georgia', 'Noto Serif SC', 'SimSun', serif;
+            background: linear-gradient(135deg, #fdf6f0 0%, #f5e6d3 50%, #fce4ec 100%);
+            min-height: 100vh;
+            color: #4a3f35;
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        /* 标题区 */
+        .header {
+            text-align: center;
+            padding: 60px 20px;
+            animation: fadeIn 2s ease-in;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            color: #8b4513;
+            margin-bottom: 15px;
+            letter-spacing: 3px;
+        }
+        .header .subtitle {
+            font-size: 1.2rem;
+            color: #a0522d;
+            font-style: italic;
+        }
+        .header .years {
+            font-size: 4rem;
+            color: #d4a574;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        /* 照片轮播 */
+        .slideshow {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            margin: 40px auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+        }
+        .slide.active {
+            opacity: 1;
+        }
+        .slide img {
+            width: 100%;
+            height: 85%;
+            object-fit: cover;
+        }
+        .slide-caption {
+            height: 15%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: #8b4513;
+            background: #fff8f0;
+            width: 100%;
+            padding: 0 20px;
+            text-align: center;
+        }
+        /* 时间线 */
+        .timeline {
+            margin: 60px 0;
+            position: relative;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(to bottom, #d4a574, #c9a86c, #d4a574);
+        }
+        .timeline-item {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 50%;
+            position: relative;
+            margin: 40px 0;
+            animation: slideIn 1s ease-out;
+        }
+        .timeline-item:nth-child(even) {
+            justify-content: flex-start;
+            padding-right: 0;
+            padding-left: 50%;
+        }
+        .timeline-content {
+            background: #fff;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            max-width: 320px;
+            position: relative;
+            margin: 0 25px;
+        }
+        .timeline-content::after {
+            content: '';
+            position: absolute;
+            top: 30px;
+            width: 15px;
+            height: 15px;
+            background: #d4a574;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            box-shadow: 0 0 0 3px #d4a574;
+        }
+        .timeline-item:nth-child(odd) .timeline-content::after {
+            right: -32px;
+        }
+        .timeline-item:nth-child(even) .timeline-content::after {
+            left: -32px;
+        }
+        .timeline-date {
+            font-size: 1.3rem;
+            color: #8b4513;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .timeline-event {
+            font-size: 1.1rem;
+            color: #a0522d;
+            margin-bottom: 10px;
+        }
+        .timeline-desc {
+            font-size: 0.95rem;
+            color: #6b5b4f;
+            font-style: italic;
+        }
+        /* 情书正文 */
+        .letter {
+            background: #fff;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            margin: 60px 0;
+            position: relative;
+        }
+        .letter::before {
+            content: '❝';
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-size: 4rem;
+            color: #d4a574;
+            opacity: 0.3;
+        }
+        .letter h2 {
+            text-align: center;
+            color: #8b4513;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+        }
+        .letter p {
+            margin-bottom: 20px;
+            text-indent: 2em;
+            font-size: 1.05rem;
+            line-height: 2.2;
+        }
+        .letter .highlight {
+            color: #a0522d;
+            font-weight: bold;
+        }
+        /* 署名 */
+        .signature {
+            text-align: center;
+            padding: 40px;
+            color: #8b4513;
+            font-size: 1.1rem;
+        }
+        .signature .heart {
+            color: #e74c3c;
+            font-size: 2rem;
+            animation: heartbeat 1.5s infinite;
+        }
+        /* 动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        /* 响应式 */
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.8rem; }
+            .header .years { font-size: 3rem; }
+            .slideshow { height: 300px; }
+            .timeline::before { left: 20px; }
+            .timeline-item,
+            .timeline-item:nth-child(even) {
+                justify-content: flex-start;
+                padding-left: 50px;
+                padding-right: 0;
+            }
+            .timeline-content { max-width: 100%; margin: 0; }
+            .timeline-item:nth-child(odd) .timeline-content::after,
+            .timeline-item:nth-child(even) .timeline-content::after {
+                left: -37px;
+                right: auto;
+            }
+            .letter { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 标题 -->
+        <div class="header">
+            <h1>致我最爱的妻子</h1>
+            <div class="years">13</div>
+            <div class="subtitle">年，谢谢你一直在</div>
+            <div class="subtitle" style="margin-top:10px;font-size:1rem;">2013 — 2026</div>
+        </div>
+        <!-- 照片轮播 -->
+        <div class="slideshow">
+            <div class="slide active">
+                <img src="https://via.placeholder.com/600x340/fdf6f0/8b4513?text=照片1：我们的结婚证" alt="结婚证">
+                <div class="slide-caption">2013年5月20日，我们领证了，从此是一家人</div>
+            </div>
+            <div class="slide">
+                <img src="https://via.placeholder.com/600x340/f5e6d3/8b4513?text=照片2：二人世界" alt="二人世界">
+                <div class="slide-caption">那些年，周末和朋友聚餐，深夜压马路，简单又快乐</div>
+            </div>
+            <div class="slide">
+                <img src="https://via.placeholder.com/600x340/fce4ec/8b4513?text=照片3：女儿出生" alt="女儿">
+                <div class="slide-caption">2018年，我们的小公主来了，家里多了笑声</div>
+            </div>
+            <div class="slide">
+                <img src="https://via.placeholder.com/600x340/fdf6f0/8b4513?text=照片4：儿子出生" alt="儿子">
+                <div class="slide-caption">2024年，小儿子报到，一儿一女，凑成一个"好"字</div>
+            </div>
+            <div class="slide">
+                <img src="https://via.placeholder.com/600x340/f5e6d3/8b4513?text=照片5：现在的我们" alt="全家福">
+                <div class="slide-caption">从两个人到四个人，你辛苦了，我爱你</div>
+            </div>
+        </div>
+        <!-- 时间线 -->
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2013.05.20</div>
+                    <div class="timeline-event">💍 我们领证了</div>
+                    <div class="timeline-desc">选了这个日子，不是因为跟风，是因为"520"刚好是我爱你，也刚好是我认定你的那一天。</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2013 — 2017</div>
+                    <div class="timeline-event">🍻 二人世界的黄金年代</div>
+                    <div class="timeline-desc">周末约朋友吃火锅，假期去周边短途游，晚上窝在沙发追剧。那时候觉得，两个人就这样过一辈子，也挺好。</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2018.06.02</div>
+                    <div class="timeline-event">👧 女儿来了</div>
+                    <div class="timeline-desc">你经历了十个月的辛苦，换来了她的第一声啼哭。从那天起，你多了一个"妈妈"的身份，也多了无数个不眠之夜。</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2019 — 2023</div>
+                    <div class="timeline-event">🎠 从二人世界到遛娃日常</div>
+                    <div class="timeline-desc">聚餐变成了亲子餐厅，周末变成了公园和游乐场。你推着婴儿车，我跟在后面拎包，生活变了节奏，但没变的是你还在我身边。</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2024.05.08</div>
+                    <div class="timeline-event">👶 儿子报到</div>
+                    <div class="timeline-desc">一儿一女，凑成一个"好"字。别人羡慕我们儿女双全，但我知道，这意味着你要付出双倍的心血。谢谢你，从没喊过累。</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2026.05.20</div>
+                    <div class="timeline-event">❤️ 今天</div>
+                    <div class="timeline-desc">结婚13周年，也是情人节。从两个人到四个人，从餐馆聚餐到各种遛娃，变的是生活，不变的是我想和你走下去的心。</div>
+                </div>
+            </div>
+        </div>
+        <!-- 情书正文 -->
+        <div class="letter">
+            <h2>写给你的话</h2>
+            <p>
+                亲爱的，今天是<span class="highlight">2026年5月20日</span>，距离我们领证已经过去整整<span class="highlight">13年</span>了。13年，说长不长，说短也不短——长到足以让两个人从青涩走到成熟，短到我还记得第一次见你时你笑的样子。
+            </p>
+            <p>
+                还记得刚结婚那几年吗？那时候我们没有孩子，周末就约着朋友吃饭、唱歌、逛街。你总爱拉着我试衣服，我就在旁边坐着玩手机，偶尔抬头夸你一句"好看"。那时候觉得，日子就这样过下去，也挺美的。
+            </p>
+            <p>
+                后来女儿来了，我们的生活节奏彻底变了。你不再睡整觉，不再随便出门，手机相册里全是她的照片。我看着你从一个爱打扮的姑娘，变成一个随时能单手抱娃、另一只手冲奶粉的妈妈。说实话，我有点心疼，但更多的是骄傲——<span class="highlight">我娶了一个这么棒的女人</span>。
+            </p>
+            <p>
+                再后来，儿子也来了。一儿一女，别人都说我们"好福气"。可我知道，这"好福气"背后，是你无数个凌晨的喂奶、换尿布、哄睡，是你放弃了周末的懒觉，放弃了和朋友聚会的自由。你从没抱怨过，但我都看在眼里。
+            </p>
+            <p>
+                现在我们的生活，基本围绕着两个孩子转。周末不是去公园，就是去游乐场；聚餐从火锅烧烤变成了亲子餐厅；晚上想安静看会儿电视，都得等娃睡了以后。有时候我会想，<span class="highlight">如果没有你，这些琐碎的日子，我一个人根本撑不下来</span>。
+            </p>
+            <p>
+                13年了，我从一个不太会表达的人，到今天写下这些话。不是因为突然开窍了，是因为我越来越确定——<span class="highlight">这辈子最对的事，就是娶了你</span>。谢谢你，陪我走过二人世界的潇洒，也陪我扛过带娃日子的忙碌。未来的路还长，我会继续在你旁边，拎包、推车、哄娃，还有——爱你。
+            </p>
+        </div>
+        <!-- 署名 -->
+        <div class="signature">
+            <div class="heart">❤</div>
+            <p>爱你的丈夫</p>
+            <p>2026年5月20日</p>
+            <p style="font-size:0.9rem;color:#a0522d;margin-top:10px;">结婚13周年 · 情人节快乐</p>
+        </div>
+    </div>
+    <script>
+        // 照片轮播
+        const slides = document.querySelectorAll('.slide');
+        let current = 0;
+        setInterval(() => {
+            slides[current].classList.remove('active');
+            current = (current + 1) % slides.length;
+            slides[current].classList.add('active');
+        }, 4000);
+    </script>
+</body>
+</html>
